@@ -27,8 +27,14 @@ type system instead of being stored as unlabelled cells.
   parser without giving up dimensional checks.
 - An arbitrary-precision rational kernel is available for calculations that
   must remain exact until an explicit `F32` conversion boundary.
-- The browser worksheet recalculates as you type and supports local persistence
-  plus `.gauss` file import and export.
+- The browser worksheet supports normal infix expressions with precedence,
+  parentheses, unary signs, integer powers, and formulas such as
+  `energy = 0.5 * mass * speed ** 2`.
+- Browser calculations can use fast `F32` values or arbitrary-precision exact
+  rationals. Dependencies are memoized across edits, so unchanged branches are
+  reused during recalculation.
+- Unit-aware suggestions, live diagnostics, a result-magnitude plot, CSV export,
+  local persistence, and `.gauss` file import/export are built in.
 - `LAWS.bend` specifies canonical exponent results and cancellation behavior;
   `PROOF.bend` proves them.
 - `main.bend` is a runnable worksheet-style example.
@@ -86,8 +92,9 @@ bend worksheet.bend
 
 ## Browser worksheet
 
-The browser UI imports the Bend workbook engine directly; calculations are not
-reimplemented in JavaScript. Build and serve it locally with:
+The browser UI uses the Bend dimension, runtime-quantity, and exact-rational
+kernels directly. Its editor adds a richer expression parser around those
+checked operations. Build and serve it locally with:
 
 ```sh
 bend web/index.html -o dist
@@ -95,7 +102,9 @@ python3 -m http.server --directory dist
 ```
 
 The worksheet autosaves in browser storage and can open or save plain-text
-`.gauss` documents.
+`.gauss` documents. Operators follow normal precedence and include `+`, `-`,
+`*`, `/`, and `**`; parentheses and unary `+`/`-` are supported. Powers must be
+non-negative dimensionless integers.
 
 ## Run it
 
@@ -110,10 +119,9 @@ bend worksheet.bend
 
 ## Direction
 
-The next useful milestones are a richer expression grammar, incremental caching,
-broader unit coverage, and uncertainty/significant-figure propagation. The exact
-rational kernel is intentionally separate from the current `F32` worksheet
-runtime while that numeric-policy work continues. See [ROADMAP.md](ROADMAP.md).
+The next useful milestones are broader unit coverage, uncertainty and
+significant-figure propagation, parameter sweeps, and shareable hosted
+documents. See [ROADMAP.md](ROADMAP.md).
 
 ## License
 

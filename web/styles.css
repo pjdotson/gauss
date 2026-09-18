@@ -29,6 +29,7 @@ body {
 }
 
 button, textarea { font: inherit; }
+select { font: inherit; }
 
 button:focus-visible,
 textarea:focus-visible,
@@ -62,6 +63,8 @@ a:focus-visible {
 .identity p { margin: 4px 0 0; color: #b9c6cb; font-size: 12px; }
 .actions { display: flex; align-items: center; gap: 8px; }
 .save-state { margin-right: 8px; color: #b9c6cb; font-size: 12px; }
+.policy-label { display: flex; align-items: center; gap: 7px; color: #b9c6cb; font-size: 12px; }
+.policy-label select { height: 34px; color: white; background: #223842; border: 1px solid #80949d; border-radius: 2px; }
 
 .button {
   min-height: 36px;
@@ -155,6 +158,9 @@ textarea {
   font-size: 12px;
 }
 .diagnostic.error { color: var(--error); background: #fff1ef; }
+.suggestions { min-height: 39px; padding: 6px 12px; display: flex; gap: 6px; overflow-x: auto; border-top: 1px solid var(--rule); background: #e9eff1; }
+.suggestions button { padding: 4px 8px; border: 1px solid #aab9bf; border-radius: 2px; color: #304a55; background: #f8fafb; cursor: pointer; font: 11px/1.3 "SFMono-Regular", Consolas, monospace; white-space: nowrap; }
+.suggestions button:hover { border-color: var(--accent); color: var(--accent-dark); }
 
 .results-heading output {
   color: var(--muted);
@@ -186,6 +192,11 @@ td.dimension { color: #405862; font-size: 12px; }
 tr.failed td { background: #fff5f3; }
 tr.failed .state, tr.failed td.value { color: var(--error); }
 .empty { padding: 80px 20px; color: var(--muted); text-align: center; }
+.empty[hidden] { display: none; }
+.plot-wrap { margin: 0; padding: 14px 16px 18px; border-top: 1px solid var(--rule); background: #eef3f5; }
+.plot-wrap figcaption { margin-bottom: 8px; color: #405862; font-size: 12px; font-weight: 650; }
+.plot-wrap figcaption span { margin-left: 5px; color: var(--muted); font-weight: 400; }
+.plot-wrap canvas { width: 100%; height: 150px; display: block; background: #f9fbfb; border: 1px solid #c9d5da; }
 
 footer {
   width: min(1500px, calc(100% - 40px));

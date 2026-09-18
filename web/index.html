@@ -18,7 +18,14 @@
       </div>
       <div class="actions">
         <span class="save-state" id="save-state">Saved locally</span>
+        <label class="policy-label">Numbers
+          <select id="numeric-policy">
+            <option value="f32">Fast F32</option>
+            <option value="exact">Exact rational</option>
+          </select>
+        </label>
         <button class="button secondary" id="open-button" type="button">Open</button>
+        <button class="button secondary" id="csv-button" type="button">Export CSV</button>
         <button class="button secondary" id="save-button" type="button">Save file</button>
         <button class="button primary" id="run-button" type="button">Recalculate</button>
         <input id="file-input" type="file" accept=".gauss,.txt,text/plain" hidden />
@@ -30,11 +37,11 @@
         <div class="panel-heading">
           <div>
             <h2 id="editor-title">Worksheet</h2>
-            <p>One definition per line. Spaces make the grammar explicit.</p>
+            <p>One definition per line. Units participate in every expression.</p>
           </div>
           <div class="syntax" aria-label="Supported syntax">
             <code>name = 12.5 kN</code>
-            <code>result = left / right</code>
+            <code>energy = 0.5 * mass * speed ** 2</code>
           </div>
         </div>
         <div class="editor-shell">
@@ -42,6 +49,7 @@
           <textarea id="source" aria-label="Gauss worksheet source" spellcheck="false"></textarea>
         </div>
         <p class="diagnostic" id="diagnostic" role="status" aria-live="polite"></p>
+        <div class="suggestions" id="suggestions" aria-label="Formula suggestions"></div>
       </section>
 
       <section class="results-panel" aria-labelledby="results-title">
@@ -68,6 +76,10 @@
         <div class="empty" id="empty-state" hidden>
           Add a quantity to the worksheet to calculate it.
         </div>
+        <figure class="plot-wrap">
+          <figcaption>Result magnitude overview <span>logarithmic scale</span></figcaption>
+          <canvas id="result-plot" height="150" aria-label="Bar chart of calculated result magnitudes"></canvas>
+        </figure>
       </section>
     </main>
 

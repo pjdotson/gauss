@@ -18,7 +18,7 @@ and the correctness of a dimensional-analysis tool.
 - [ ] More units and temperature scales
 - [x] Structured errors for invalid domains and division by zero
 - [x] Arbitrary-precision exact rational quantity kernel
-- [ ] Integrate selectable numeric policies into worksheets
+- [x] Integrate selectable numeric policies into worksheets
 
 ## 0.2 — Formula engine
 
@@ -26,15 +26,18 @@ and the correctness of a dimensional-analysis tool.
 - [x] Parse formulas and quantity literals such as `12.5 kN`
 - [x] Named cells and dependency graph
 - [x] Cycle detection
-- [ ] Incremental recalculation cache
-- [ ] Parentheses, precedence, functions, and unary expressions
+- [x] Incremental recalculation cache
+- [x] Parentheses, precedence, integer powers, and unary expressions
+- [ ] Worksheet functions such as `sqrt`, `sin`, and `cos`
 - [ ] Uncertainty and significant-figure propagation
 
 ## 0.3 — Engineering worksheet
 
 - [x] Browser-based worksheet and formula editor
-- [ ] Unit-aware autocomplete and diagnostics
-- [ ] Tables, plots, and parameter sweeps
-- [ ] Import/export for CSV and common spreadsheet formats
+- [x] Unit-aware suggestions and diagnostics
+- [x] Result magnitude plot
+- [ ] Tables and parameter sweeps
+- [x] CSV result export
+- [ ] Import/export for common spreadsheet formats
 - [x] Local `.gauss` document persistence
 - [ ] Shareable hosted calculation documents
