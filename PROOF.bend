@@ -1,12 +1,20 @@
 import Base
 import ./LAWS.bend as Laws
-import ./src/gauss.bend as Gauss
 
-def Laws.speed_has_correct_dimension(distance, elapsed):
-  Gauss.speed(distance, elapsed)
+def Laws.speed_dimension_is_canonical():
+  {==}
 
-def Laws.force_has_correct_dimension(mass, acceleration):
-  Gauss.force(mass, acceleration)
+def Laws.speed_times_time_is_length():
+  {==}
 
-def Laws.kinetic_energy_has_correct_dimension(mass, velocity):
-  Gauss.kinetic_energy(mass, velocity)
+def Laws.force_dimension_is_canonical():
+  {==}
+
+def Laws.energy_dimension_is_canonical():
+  {==}
+
+def Laws.pressure_dimension_is_canonical():
+  {==}
+
+def Laws.resistance_dimension_is_canonical():
+  {==}

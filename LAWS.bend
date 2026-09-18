@@ -1,20 +1,44 @@
 import Base
 import ./src/gauss.bend as Gauss
 
-# A length divided by a time produces a speed.
-law speed_has_correct_dimension:
-  for distance: Gauss.Quantity<Gauss.Length>
-  for elapsed: Gauss.Quantity<Gauss.Time>
-  Gauss.Quantity<Gauss.Speed>
+# Dividing length by time produces the canonical speed dimension L T^-1.
+law speed_dimension_is_canonical:
+  {Gauss.Dimension.speed() == Gauss.Dim{
+    Gauss.EPos{0n}, Gauss.EZero{}, Gauss.ENeg{0n}, Gauss.EZero{},
+    Gauss.EZero{}, Gauss.EZero{}, Gauss.EZero{}
+  } : Gauss.Dimension}
 
-# Mass times acceleration produces force.
-law force_has_correct_dimension:
-  for mass: Gauss.Quantity<Gauss.Mass>
-  for acceleration: Gauss.Quantity<Gauss.Acceleration>
-  Gauss.Quantity<Gauss.Force>
+# Multiplying speed by time cancels the time exponent and recovers length.
+law speed_times_time_is_length:
+  {Gauss.Dimension.multiply(
+    Gauss.Dimension.speed(),
+    Gauss.Dimension.time()
+  ) == Gauss.Dimension.length() : Gauss.Dimension}
 
-# Mass and speed produce kinetic energy, never an unlabelled scalar.
-law kinetic_energy_has_correct_dimension:
-  for mass: Gauss.Quantity<Gauss.Mass>
-  for velocity: Gauss.Quantity<Gauss.Speed>
-  Gauss.Quantity<Gauss.Energy>
+# Force reduces to M L T^-2.
+law force_dimension_is_canonical:
+  {Gauss.Dimension.force() == Gauss.Dim{
+    Gauss.EPos{0n}, Gauss.EPos{0n}, Gauss.ENeg{1n}, Gauss.EZero{},
+    Gauss.EZero{}, Gauss.EZero{}, Gauss.EZero{}
+  } : Gauss.Dimension}
+
+# Energy reduces to M L^2 T^-2.
+law energy_dimension_is_canonical:
+  {Gauss.Dimension.energy() == Gauss.Dim{
+    Gauss.EPos{1n}, Gauss.EPos{0n}, Gauss.ENeg{1n}, Gauss.EZero{},
+    Gauss.EZero{}, Gauss.EZero{}, Gauss.EZero{}
+  } : Gauss.Dimension}
+
+# Pressure reduces to M L^-1 T^-2, exercising unequal exponent cancellation.
+law pressure_dimension_is_canonical:
+  {Gauss.Dimension.pressure() == Gauss.Dim{
+    Gauss.ENeg{0n}, Gauss.EPos{0n}, Gauss.ENeg{1n}, Gauss.EZero{},
+    Gauss.EZero{}, Gauss.EZero{}, Gauss.EZero{}
+  } : Gauss.Dimension}
+
+# Electrical resistance reduces to M L^2 T^-3 I^-2.
+law resistance_dimension_is_canonical:
+  {Gauss.Dimension.resistance() == Gauss.Dim{
+    Gauss.EPos{1n}, Gauss.EPos{0n}, Gauss.ENeg{2n}, Gauss.ENeg{1n},
+    Gauss.EZero{}, Gauss.EZero{}, Gauss.EZero{}
+  } : Gauss.Dimension}
