@@ -1,0 +1,22 @@
+name: Bend checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Bend
+        run: |
+          curl -fsSL https://bend-lang.com/install.sh | sh
+          echo "$HOME/.bend/bin" >> "$GITHUB_PATH"
+      - name: Check laws and proofs
+        run: bend PROOF.bend
+      - name: Run example worksheet
+        run: bend main.bend
