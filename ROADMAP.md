@@ -1,6 +1,6 @@
 # Roadmap
 
-Euler starts with a deliberately small, trustworthy kernel. The long-term goal
+Gauss starts with a deliberately small, trustworthy kernel. The long-term goal
 is a collaborative engineering notebook with the familiarity of a spreadsheet
 and the correctness of a dimensional-analysis tool.
 

@@ -1,6 +1,6 @@
 import Base
 
-# Euler's quantities carry their physical dimension in the type. The dimension
+# Gauss quantities carry their physical dimension in the type. The dimension
 # marker is erased, so a checked quantity is represented by one F32 at runtime.
 type Scalar is Type:
   Scalar{}

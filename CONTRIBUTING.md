@@ -1,6 +1,6 @@
 # Contributing
 
-Euler is an experiment in trustworthy engineering computation. Small issues,
+Gauss is an experiment in trustworthy engineering computation. Small issues,
 design discussions, new units, formulas, laws, and proof improvements are all
 welcome.
 

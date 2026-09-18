@@ -1,6 +1,6 @@
-# Euler
+# Gauss
 
-Euler is an experimental, unit-aware calculation engine for engineers, written
+Gauss is an experimental, unit-aware calculation engine for engineers, written
 in [Bend](https://bend-lang.com/). It explores what a better spreadsheet core
 could feel like when physical quantities and formulas are understood by the
 type system instead of being stored as unlabelled cells.
@@ -18,12 +18,12 @@ type system instead of being stored as unlabelled cells.
 - `LAWS.bend` specifies formula dimension contracts and `PROOF.bend` proves them.
 - `main.bend` is a runnable worksheet-style example.
 
-For example, `Euler.speed` only accepts a length and a time:
+For example, `Gauss.speed` only accepts a length and a time:
 
 ```python
-distance = Euler.kilometers(100.0)
-elapsed = Euler.minutes(60.0)
-velocity = Euler.speed(distance, elapsed)
+distance = Gauss.kilometers(100.0)
+elapsed = Gauss.minutes(60.0)
+velocity = Gauss.speed(distance, elapsed)
 ```
 
 Passing a mass where the distance belongs is a compile-time error rather than a
