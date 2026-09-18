@@ -43,6 +43,17 @@ def Exponent.add(left: Exponent, right: Exponent) -> Exponent:
     case ENeg{+negative} EPos{+positive}:
       Exponent.add_opposite(positive, negative, Nat.cmp(positive, negative))
 
+def Exponent.is_equal(left: Exponent, right: Exponent) -> Bool:
+  match left right:
+    case EZero{} EZero{}:
+      True{}
+    case EPos{left} EPos{right}:
+      Nat.is_eq(left, right)
+    case ENeg{left} ENeg{right}:
+      Nat.is_eq(left, right)
+    case left right:
+      False{}
+
 # The seven axes are length, mass, time, electric current, temperature,
 # amount of substance, and luminous intensity, in SI order.
 type Dimension is Data:
@@ -109,6 +120,21 @@ def Dimension.multiply(left: Dimension, right: Dimension) -> Dimension:
 def Dimension.divide(left: Dimension, right: Dimension) -> Dimension:
   Dimension.multiply(left, Dimension.inverse(right))
 
+def Dimension.pow(+dimension: Dimension, exponent: Nat) -> Dimension:
+  match exponent:
+    case 0n:
+      Dimension.scalar()
+    case 1n+pred:
+      Dimension.multiply(dimension, Dimension.pow(dimension, pred))
+
+def Dimension.is_equal(left: Dimension, right: Dimension) -> Bool:
+  match left right:
+    case Dim{ll, lm, lt, li, lk, ln, lj} Dim{rl, rm, rt, ri, rk, rn, rj}:
+      a = Bool.and(Exponent.is_equal(ll, rl), Exponent.is_equal(lm, rm))
+      b = Bool.and(Exponent.is_equal(lt, rt), Exponent.is_equal(li, ri))
+      c = Bool.and(Exponent.is_equal(lk, rk), Exponent.is_equal(ln, rn))
+      Bool.and(a, Bool.and(b, Bool.and(c, Exponent.is_equal(lj, rj))))
+
 def Dimension.speed() -> Dimension:
   Dimension.divide(Dimension.length(), Dimension.time())
 
@@ -167,11 +193,17 @@ def Units.kilometer() -> UnitSpec<Dimension.length()>:
 def Units.foot() -> UnitSpec<Dimension.length()>:
   Uom{0.3048, 0.0, "ft"}
 
+def Units.inch() -> UnitSpec<Dimension.length()>:
+  Uom{0.0254, 0.0, "in"}
+
 def Units.second() -> UnitSpec<Dimension.time()>:
   Uom{1.0, 0.0, "s"}
 
 def Units.minute() -> UnitSpec<Dimension.time()>:
   Uom{60.0, 0.0, "min"}
+
+def Units.hour() -> UnitSpec<Dimension.time()>:
+  Uom{3600.0, 0.0, "h"}
 
 def Units.kilogram() -> UnitSpec<Dimension.mass()>:
   Uom{1.0, 0.0, "kg"}
@@ -179,14 +211,20 @@ def Units.kilogram() -> UnitSpec<Dimension.mass()>:
 def Units.pound() -> UnitSpec<Dimension.mass()>:
   Uom{0.45359237, 0.0, "lb"}
 
+def Units.gram() -> UnitSpec<Dimension.mass()>:
+  Uom{0.001, 0.0, "g"}
+
+def Units.tonne() -> UnitSpec<Dimension.mass()>:
+  Uom{1000.0, 0.0, "t"}
+
 def Units.ampere() -> UnitSpec<Dimension.current()>:
   Uom{1.0, 0.0, "A"}
 
-def Units.kelvin() -> UnitSpec<Dimension.temperature()>:
-  Uom{1.0, 0.0, "K"}
+def Units.kelvin_delta() -> UnitSpec<Dimension.temperature()>:
+  Uom{1.0, 0.0, "deltaK"}
 
-def Units.celsius() -> UnitSpec<Dimension.temperature()>:
-  Uom{1.0, 273.15, "degC"}
+def Units.celsius_delta() -> UnitSpec<Dimension.temperature()>:
+  Uom{1.0, 0.0, "deltaC"}
 
 def Units.mole() -> UnitSpec<Dimension.amount()>:
   Uom{1.0, 0.0, "mol"}
@@ -206,17 +244,41 @@ def Units.hertz() -> UnitSpec<Dimension.frequency()>:
 def Units.newton() -> UnitSpec<Dimension.force()>:
   Uom{1.0, 0.0, "N"}
 
+def Units.kilonewton() -> UnitSpec<Dimension.force()>:
+  Uom{1000.0, 0.0, "kN"}
+
+def Units.pound_force() -> UnitSpec<Dimension.force()>:
+  Uom{4.4482216, 0.0, "lbf"}
+
 def Units.joule() -> UnitSpec<Dimension.energy()>:
   Uom{1.0, 0.0, "J"}
 
 def Units.kilojoule() -> UnitSpec<Dimension.energy()>:
   Uom{1000.0, 0.0, "kJ"}
 
+def Units.watt_hour() -> UnitSpec<Dimension.energy()>:
+  Uom{3600.0, 0.0, "Wh"}
+
+def Units.kilowatt_hour() -> UnitSpec<Dimension.energy()>:
+  Uom{3600000.0, 0.0, "kWh"}
+
 def Units.pascal() -> UnitSpec<Dimension.pressure()>:
   Uom{1.0, 0.0, "Pa"}
 
+def Units.kilopascal() -> UnitSpec<Dimension.pressure()>:
+  Uom{1000.0, 0.0, "kPa"}
+
+def Units.megapascal() -> UnitSpec<Dimension.pressure()>:
+  Uom{1000000.0, 0.0, "MPa"}
+
+def Units.psi() -> UnitSpec<Dimension.pressure()>:
+  Uom{6894.757, 0.0, "psi"}
+
 def Units.watt() -> UnitSpec<Dimension.power()>:
   Uom{1.0, 0.0, "W"}
+
+def Units.kilowatt() -> UnitSpec<Dimension.power()>:
+  Uom{1000.0, 0.0, "kW"}
 
 def Units.coulomb() -> UnitSpec<Dimension.charge()>:
   Uom{1.0, 0.0, "C"}
@@ -269,11 +331,11 @@ def pounds(value: F32) -> Quantity<Dimension.mass()>:
 def amperes(value: F32) -> Quantity<Dimension.current()>:
   from_unit(Dimension.current(), Units.ampere(), value)
 
-def kelvin(value: F32) -> Quantity<Dimension.temperature()>:
-  from_unit(Dimension.temperature(), Units.kelvin(), value)
+def kelvin_delta(value: F32) -> Quantity<Dimension.temperature()>:
+  from_unit(Dimension.temperature(), Units.kelvin_delta(), value)
 
-def celsius(value: F32) -> Quantity<Dimension.temperature()>:
-  from_unit(Dimension.temperature(), Units.celsius(), value)
+def celsius_delta(value: F32) -> Quantity<Dimension.temperature()>:
+  from_unit(Dimension.temperature(), Units.celsius_delta(), value)
 
 def moles(value: F32) -> Quantity<Dimension.amount()>:
   from_unit(Dimension.amount(), Units.mole(), value)
@@ -295,6 +357,20 @@ def scale(-D: Dimension, factor: F32, quantity: Quantity<D>) -> Quantity<D>:
   match quantity:
     case Qty{v}:
       Qty{(factor * v : F32)}
+
+def power(
+  -D: Dimension,
+  exponent: Nat,
+  quantity: Quantity<D>
+) -> Quantity<Dimension.pow(D, exponent)>:
+  match quantity:
+    case Qty{v}:
+      Qty{F32.pow(v, F32.from_nat(exponent))}
+
+def square(-D: Dimension, +quantity: Quantity<D>) -> Quantity<Dimension.pow(D, 2n)>:
+  match quantity:
+    case Qty{+v}:
+      Qty{(v * v : F32)}
 
 def multiply(
   -A: Dimension,

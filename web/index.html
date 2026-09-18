@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Gauss unit-aware engineering worksheet" />
+    <title>Gauss worksheet</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="identity">
+        <span class="mark" aria-hidden="true">G</span>
+        <div>
+          <h1>Gauss</h1>
+          <p>Unit-aware engineering worksheet</p>
+        </div>
+      </div>
+      <div class="actions">
+        <span class="save-state" id="save-state">Saved locally</span>
+        <button class="button secondary" id="open-button" type="button">Open</button>
+        <button class="button secondary" id="save-button" type="button">Save file</button>
+        <button class="button primary" id="run-button" type="button">Recalculate</button>
+        <input id="file-input" type="file" accept=".gauss,.txt,text/plain" hidden />
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="editor-panel" aria-labelledby="editor-title">
+        <div class="panel-heading">
+          <div>
+            <h2 id="editor-title">Worksheet</h2>
+            <p>One definition per line. Spaces make the grammar explicit.</p>
+          </div>
+          <div class="syntax" aria-label="Supported syntax">
+            <code>name = 12.5 kN</code>
+            <code>result = left / right</code>
+          </div>
+        </div>
+        <div class="editor-shell">
+          <div class="line-numbers" id="line-numbers" aria-hidden="true"></div>
+          <textarea id="source" aria-label="Gauss worksheet source" spellcheck="false"></textarea>
+        </div>
+        <p class="diagnostic" id="diagnostic" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="results-panel" aria-labelledby="results-title">
+        <div class="panel-heading results-heading">
+          <div>
+            <h2 id="results-title">Calculated quantities</h2>
+            <p>Dimensions are derived, never entered by hand.</p>
+          </div>
+          <output id="result-count">0 quantities</output>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Value</th>
+                <th scope="col">SI dimension</th>
+                <th scope="col">State</th>
+              </tr>
+            </thead>
+            <tbody id="results"></tbody>
+          </table>
+        </div>
+        <div class="empty" id="empty-state" hidden>
+          Add a quantity to the worksheet to calculate it.
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Exact dimensions. Explicit units. Visible formulas.</span>
+      <a href="https://github.com/pjdotson/gauss">Source on GitHub</a>
+    </footer>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

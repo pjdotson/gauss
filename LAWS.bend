@@ -1,5 +1,7 @@
 import Base
 import ./src/gauss.bend as Gauss
+import ./src/runtime.bend as Runtime
+import ./src/exact.bend as Exact
 
 # Dividing length by time produces the canonical speed dimension L T^-1.
 law speed_dimension_is_canonical:
@@ -48,7 +50,31 @@ law speed_format_is_dimension_safe:
   for velocity: Gauss.Quantity<Gauss.Dimension.speed()>
   String
 
-# Affine scales such as Celsius still construct temperature quantities.
-law celsius_constructs_temperature:
+# Affine scales such as Celsius construct absolute temperatures, not quantities
+# that can be freely added or multiplied.
+law celsius_constructs_absolute_temperature:
   for displayed: F32
-  Gauss.Quantity<Gauss.Dimension.temperature()>
+  Runtime.AbsoluteTemperature
+
+# Integer powers compose dimensions canonically.
+law length_cubed_is_volume:
+  {Gauss.Dimension.pow(
+    Gauss.Dimension.length(), 3n
+  ) == Gauss.Dimension.volume() : Gauss.Dimension}
+
+# A square root can only request the dimension whose square matches the input.
+law area_square_root_is_length:
+  for area: Gauss.Quantity<Gauss.Dimension.area()>
+  Result<&2, &2, Runtime.CalcError, Gauss.Quantity<Gauss.Dimension.length()>>
+
+# Absolute temperatures and differences remain distinct at the type level.
+law temperature_plus_delta_is_absolute:
+  for absolute: Runtime.AbsoluteTemperature
+  for delta: Runtime.TemperatureDelta
+  Runtime.AbsoluteTemperature
+
+# Exact quantities retain the same dimension algebra as F32 quantities.
+law exact_length_times_length_is_area:
+  for left: Exact.ExactQuantity<Gauss.Dimension.length()>
+  for right: Exact.ExactQuantity<Gauss.Dimension.length()>
+  Exact.ExactQuantity<Gauss.Dimension.area()>

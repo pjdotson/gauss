@@ -20,3 +20,12 @@ jobs:
         run: bend PROOF.bend
       - name: Run example worksheet
         run: bend main.bend
+      - name: Check runtime, workbook, and exact arithmetic
+        run: |
+          bend src/runtime.bend
+          bend src/workbook.bend
+          bend src/exact.bend
+      - name: Run parsed worksheet
+        run: bend worksheet.bend
+      - name: Build browser worksheet
+        run: bend web/index.html -o dist

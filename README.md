@@ -20,6 +20,15 @@ type system instead of being stored as unlabelled cells.
 - Typed formulas cover speed, acceleration, force, work, and kinetic energy.
 - Dimension-indexed units provide safe input conversion and output formatting,
   including scaled units and affine temperature scales such as Celsius.
+- Structured calculation errors cover zero division, invalid roots, dimension
+  mismatches, unknown units and cells, malformed formulas, and dependency cycles.
+- Integer powers and checked square roots compose dimensions canonically.
+- Runtime-tagged quantities power a named-cell formula engine and text worksheet
+  parser without giving up dimensional checks.
+- An arbitrary-precision rational kernel is available for calculations that
+  must remain exact until an explicit `F32` conversion boundary.
+- The browser worksheet recalculates as you type and supports local persistence
+  plus `.gauss` file import and export.
 - `LAWS.bend` specifies canonical exponent results and cancellation behavior;
   `PROOF.bend` proves them.
 - `main.bend` is a runnable worksheet-style example.
@@ -54,6 +63,40 @@ The dimension parameter is erased during compilation. A checked
 `Quantity<Dimension.force()>` therefore occupies only the underlying `F32` at
 runtime.
 
+## Text worksheets
+
+`src/workbook.bend` parses a deliberately small, auditable grammar:
+
+```text
+distance = 100 km
+elapsed = 60 min
+speed = distance / elapsed
+```
+
+Definitions may be quantity literals or binary formulas using `+`, `-`, `*`,
+and `/`. References may appear before their definitions. Evaluation detects
+unknown cells, incompatible addition and subtraction, division by zero, and
+cycles in the dependency graph.
+
+Run the command-line worksheet example with:
+
+```sh
+bend worksheet.bend
+```
+
+## Browser worksheet
+
+The browser UI imports the Bend workbook engine directly; calculations are not
+reimplemented in JavaScript. Build and serve it locally with:
+
+```sh
+bend web/index.html -o dist
+python3 -m http.server --directory dist
+```
+
+The worksheet autosaves in browser storage and can open or save plain-text
+`.gauss` documents.
+
 ## Run it
 
 Install Bend, then check the proofs and run the example:
@@ -62,13 +105,15 @@ Install Bend, then check the proofs and run the example:
 curl -fsSL https://bend-lang.com/install.sh | sh
 bend PROOF.bend
 bend main.bend
+bend worksheet.bend
 ```
 
 ## Direction
 
-The next useful milestones are broader unit coverage, uncertainty and
-significant-figure tracking, a formula/parser layer, named cells and dependency
-graphs, and eventually an interactive grid UI. See [ROADMAP.md](ROADMAP.md).
+The next useful milestones are a richer expression grammar, incremental caching,
+broader unit coverage, and uncertainty/significant-figure propagation. The exact
+rational kernel is intentionally separate from the current `F32` worksheet
+runtime while that numeric-policy work continues. See [ROADMAP.md](ROADMAP.md).
 
 ## License
 
