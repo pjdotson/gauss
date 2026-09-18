@@ -10,6 +10,14 @@ def main() -> IO(Unit):
     +velocity : Gauss.Quantity<Gauss.Dimension.speed()> = Gauss.speed(distance, elapsed)
     mass : Gauss.Quantity<Gauss.Dimension.mass()> = Gauss.kilograms(1500.0)
     energy : Gauss.Quantity<Gauss.Dimension.energy()> = Gauss.kinetic_energy(mass, velocity)
+    ambient : Gauss.Quantity<Gauss.Dimension.temperature()> = Gauss.celsius(20.0)
     IO.print("Gauss engineering worksheet")
-    IO.print("speed  = " ++ Gauss.show(Gauss.Dimension.speed(), "m/s", velocity))
-    IO.print("energy = " ++ Gauss.show(Gauss.Dimension.energy(), "J", energy))
+    IO.print("speed  = " ++ Gauss.format(
+      Gauss.Dimension.speed(), Gauss.Units.kilometer_per_hour(), velocity
+    ))
+    IO.print("energy = " ++ Gauss.format(
+      Gauss.Dimension.energy(), Gauss.Units.kilojoule(), energy
+    ))
+    IO.print("ambient SI = " ++ Gauss.format(
+      Gauss.Dimension.temperature(), Gauss.Units.kelvin(), ambient
+    ))

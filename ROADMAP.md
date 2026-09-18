@@ -11,8 +11,9 @@ and the correctness of a dimensional-analysis tool.
 - [x] Generic dimension multiplication, division, inversion, and cancellation
 - [x] Common engineering formulas
 - [x] Law-driven behavior checks
+- [x] Dimension-safe input conversion and output formatting
+- [x] Affine temperature conversion with Celsius
 - [ ] More units and temperature scales
-- [ ] Dimension-safe output conversions
 - [ ] Structured errors for invalid domains and division by zero
 
 ## 0.2 — Formula engine

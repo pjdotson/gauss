@@ -42,3 +42,13 @@ law resistance_dimension_is_canonical:
     Gauss.EPos{1n}, Gauss.EPos{0n}, Gauss.ENeg{2n}, Gauss.ENeg{1n},
     Gauss.EZero{}, Gauss.EZero{}, Gauss.EZero{}
   } : Gauss.Dimension}
+
+# Unit specifications can format only quantities with the same dimension.
+law speed_format_is_dimension_safe:
+  for velocity: Gauss.Quantity<Gauss.Dimension.speed()>
+  String
+
+# Affine scales such as Celsius still construct temperature quantities.
+law celsius_constructs_temperature:
+  for displayed: F32
+  Gauss.Quantity<Gauss.Dimension.temperature()>

@@ -18,6 +18,8 @@ type system instead of being stored as unlabelled cells.
   common dimensions include area, volume, speed, acceleration, force, energy,
   frequency, pressure, power, charge, voltage, and resistance.
 - Typed formulas cover speed, acceleration, force, work, and kinetic energy.
+- Dimension-indexed units provide safe input conversion and output formatting,
+  including scaled units and affine temperature scales such as Celsius.
 - `LAWS.bend` specifies canonical exponent results and cancellation behavior;
   `PROOF.bend` proves them.
 - `main.bend` is a runnable worksheet-style example.
@@ -32,6 +34,21 @@ velocity = Gauss.speed(distance, elapsed)
 
 Passing a mass where the distance belongs is a compile-time error rather than a
 surprising spreadsheet result.
+
+Formatting is checked in the same way:
+
+```python
+text = Gauss.format(
+  Gauss.Dimension.speed(),
+  Gauss.Units.kilometer_per_hour(),
+  velocity
+)
+```
+
+A speed can be displayed in `km/h`, but trying to format energy with that unit
+is a compile-time error. Available specifications include SI base units, feet,
+pounds, minutes, Celsius, `km/h`, hertz, newtons, joules, kilojoules, pascals,
+watts, coulombs, volts, and ohms.
 
 The dimension parameter is erased during compilation. A checked
 `Quantity<Dimension.force()>` therefore occupies only the underlying `F32` at
@@ -49,7 +66,7 @@ bend main.bend
 
 ## Direction
 
-The next useful milestones are safe output conversions, uncertainty and
+The next useful milestones are broader unit coverage, uncertainty and
 significant-figure tracking, a formula/parser layer, named cells and dependency
 graphs, and eventually an interactive grid UI. See [ROADMAP.md](ROADMAP.md).
 
